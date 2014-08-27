@@ -65,6 +65,7 @@ def getMValue(f,L,par,debug):
 		m_value = m_value + 1
 	if(debug):
 		print "m = ", m_value
+	return m_value
 
 # ------------------------------|
 #			MAIN  				|
@@ -77,7 +78,7 @@ _interval = 100
 x = [-1,1]			# graph x parameters
 y = [-0.1,1.1]  	# graph y parameters
 L = 1 				# L = T/2
-k = 0.9 			# porcentaje de la norma
+k = 1.0 			# porcentaje de la norma
 # ------------------------------
 
 # ------- custom function ------
@@ -89,7 +90,7 @@ def f(x):
 
 
 # ------ Calc K% ----------------
-par = parseval(f, L, debug)*k
+par = parseval(f, L, True)*k
 p = [x[0], x[1], y[0], y[1]]
 
 # --------- ANIMATION --------
@@ -98,15 +99,14 @@ ax = plt.axes(xlim=(p[0], p[1]), ylim=(p[2], p[3]))
 ax.set_title('Series de Fourier')
 line, = ax.plot([], [], color='green',lw=2)
 
-vecF = np.vectorize(f)
 x = np.arange(-L, L, 0.01)
-s = vecF(x)
+s = np.vectorize(f)(x)
 line2 = ax.plot(x, s, color='blue', lw=2)
 
 # ------ calc M for K% ------
 m_value = getMValue(f,L,par,debug)
-m_value = 60 #hardcoded
-
+if(m_value ==2):
+	m_value = 30
 
 def init():
     line.set_data([], [])
