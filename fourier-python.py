@@ -3,7 +3,12 @@ from scipy.integrate import quad
 from matplotlib import pyplot as plt
 from matplotlib import animation
 import numpy as np
-
+# --
+# Integrantes
+# 12009026 Kenny Alvizuris
+# 12002034 Jorge Adolfo Gonzalez
+# Matematica VI
+# --
 # -----------------------------------------------
 #            FUNCTION
 # -----------------------------------------------
