@@ -1,6 +1,4 @@
 # --------------------------------------|
-# 		Integrantes						|
-# 		12009026 Kenny Alvizuris		|
 # 		12002034 Jorge Adolfo Gonzalez	|
 # 		Matematica VI					|
 # 		Universidad Galileo				|
@@ -59,10 +57,15 @@ def parseval(f, L, debug):
 def getMValue(f,L,par,debug):
 	m_value = 0
 	aprox = 0
+	par = par/L
 	while aprox<par:
 		aprox = (getCoeficients(f,L,1,False)[3]**2)/2
 		aprox = aprox + sum([(getCoeficients(f,L,m, False)[1])**2 + (getCoeficients(f,L,m, False)[2])**2 for m in range(0,m_value)])
 		m_value = m_value + 1
+	
+	if(m_value<9):
+		m_value = 20
+	
 	if(debug):
 		print "m = ", m_value
 	return m_value
@@ -75,19 +78,15 @@ def getMValue(f,L,par,debug):
 debug = False
 _interval = 100
 # ------ config ---------------
-x = [-1,1]			# graph x parameters
-y = [-0.1,1.1]  	# graph y parameters
-L = 1 				# L = T/2
-k = 1.0 			# porcentaje de la norma
+x = [-1.5,1.5]			# graph x parameters
+y = [-0.5,1.5]  	# graph y parameters
+L = 1				# L = T/2
+k = 0.99 			# porcentaje de la norma
 # ------------------------------
 
 # ------- custom function ------
 def f(x):
-	if(x>=0 and x<1):
-		return 1
-	else:
-		return 0
-
+	return x
 
 # ------ Calc K% ----------------
 par = parseval(f, L, True)*k
@@ -104,9 +103,7 @@ s = np.vectorize(f)(x)
 line2 = ax.plot(x, s, color='blue', lw=2)
 
 # ------ calc M for K% ------
-m_value = getMValue(f,L,par,debug)
-if(m_value ==2):
-	m_value = 25
+m_value = getMValue(f,L,par,True)
 
 def init():
     line.set_data([], [])
@@ -115,7 +112,7 @@ def init():
 
 def animate(i):
     t = np.linspace(p[0], p[1], 1000)
-    c0 = getCoeficients(f,L,1, False)[0] - 1 #fix :O :/ -1/2
+    c0 = getCoeficients(f,L,1, False)[0]
     y = c0 + sum([((getCoeficients(f,L,m, False)[1]*np.cos((pi*m*t)/L)) + (getCoeficients(f,L,m, False)[2]*np.sin((pi*m*t)/L))) for m in range(0,i)])
 
     line.set_data(t, y)
