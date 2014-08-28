@@ -55,16 +55,13 @@ def parseval(f, L, debug):
 		print "Parseval: ", result
 	return result
 def getMValue(f,L,par,debug):
-	m_value = 0
+	m_value = 1
 	aprox = 0
 	par = par/L
 	while aprox<par:
 		aprox = (getCoeficients(f,L,1,False)[3]**2)/2
-		aprox = aprox + sum([(getCoeficients(f,L,m, False)[1])**2 + (getCoeficients(f,L,m, False)[2])**2 for m in range(0,m_value)])
+		aprox = aprox + sum([(getCoeficients(f,L,m, False)[1])**2 + (getCoeficients(f,L,m, False)[2])**2 for m in range(1,m_value)])
 		m_value = m_value + 1
-	
-	if(m_value<9):
-		m_value = 20
 	
 	if(debug):
 		print "m = ", m_value
@@ -86,7 +83,10 @@ k = 0.99 			# porcentaje de la norma
 
 # ------- custom function ------
 def f(x):
-	return x
+	if(x<1 and x>=0):
+		return 1
+	else:
+		return 0
 
 # ------ Calc K% ----------------
 par = parseval(f, L, True)*k
@@ -113,7 +113,7 @@ def init():
 def animate(i):
     t = np.linspace(p[0], p[1], 1000)
     c0 = getCoeficients(f,L,1, False)[0]
-    y = c0 + sum([((getCoeficients(f,L,m, False)[1]*np.cos((pi*m*t)/L)) + (getCoeficients(f,L,m, False)[2]*np.sin((pi*m*t)/L))) for m in range(0,i)])
+    y = c0 + sum([((getCoeficients(f,L,m, False)[1]*np.cos((pi*m*t)/L)) + (getCoeficients(f,L,m, False)[2]*np.sin((pi*m*t)/L))) for m in range(1,i)])
 
     line.set_data(t, y)
     return line,
