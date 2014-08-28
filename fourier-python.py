@@ -106,7 +106,7 @@ line2 = ax.plot(x, s, color='blue', lw=2)
 # ------ calc M for K% ------
 m_value = getMValue(f,L,par,debug)
 if(m_value ==2):
-	m_value = 30
+	m_value = 25
 
 def init():
     line.set_data([], [])
